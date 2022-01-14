@@ -1,0 +1,5 @@
+alembic
+asyncpg
+psycopg2
+sqlalchemy
+sqlmodel

@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  api:
+    image: gluzangi/img:url-shortener
+    hostname: fastapi
+    volumes:
+      - ./app-code:/code/app
+    env_file: '.env'
+    ports:
+      - '18000:8081'
+    networks:
+      - stack-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  db-pgsql:
+    image: postgres:14.1
+    hostname: pgsql
+    volumes:
+      - ./db-pgsql:/var/lib/postgresql/data
+      - ./db-archive:/docker-entrypoint-initdb.d
+    env_file: '.env'
+    networks:
+      - stack-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+networks:
+  stack-net:
+    driver: overlay
